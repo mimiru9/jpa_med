@@ -1,11 +1,9 @@
 package entity;
 
-import entity.diseases;
-import entity.doctors;
-import entity.pacient;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by User on 14.12.2015.
@@ -15,27 +13,33 @@ import java.util.Date;
 public class reseptions {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date_view")
+    @Column(name = "date_view", nullable = false)
     private Date dateView; //дата осмотра
 
     @Column(name = "form_view")
     @Enumerated(EnumType.STRING)
     private formViewEnum formView; //форма осмотра
-    @Column(name = "sent")
+    @Column(name = "sentEnum")
     @Enumerated(EnumType.STRING)
-    private sent sent; //направление
+    private sentEnum sent; //направление
 
-    @ManyToMany
-    private diseases id_diseases;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pacient_id", referencedColumnName = "id")
+    private pacient pacientEntity;
 
-    @ManyToOne
-    private pacient id_pacient;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    private doctors doctorEntity;
 
-    @ManyToOne
-    private doctors id_doctor;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "reseption_disease",
+            joinColumns = {@JoinColumn(name = "reseption_id")},
+            inverseJoinColumns = {@JoinColumn(name = "disease_id")})
+    private List<diseases> diseasesResept=new ArrayList<diseases>();
 
 }

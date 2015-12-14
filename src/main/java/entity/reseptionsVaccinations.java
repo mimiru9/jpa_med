@@ -1,4 +1,4 @@
-package entity;//package entity;
+package entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,16 +10,17 @@ import java.util.Date;
 @Table(name = "reseptions_vaccinations")
 public class reseptionsVaccinations {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "date_in")
+    @Column(name = "date_in", nullable = false)
     private Date dateIn; //дата приема
 
-    @Column(name = "count")
+    @Column(name = "count", nullable = false)
     private int count; //количество (мл)
 
-    @Column(name = "expiration_date")
+    @Column(name = "expiration_date", nullable = false)
     private Date expirationDate; //срок годности
 
     @Column(name = "seria")
@@ -27,5 +28,9 @@ public class reseptionsVaccinations {
 
     @Column(name = "manufacturer")
     private String manufacturer; //производитель
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vaccination_id", referencedColumnName = "id")
+    private vaccinations vaccinationEntity;
 
 }

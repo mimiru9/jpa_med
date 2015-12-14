@@ -1,4 +1,4 @@
-package entity;//package entity;
+package entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,15 +10,18 @@ import java.util.Date;
 @Table(name = "exclusion")
 public class exclusion {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(name="view_ex")
     private String viewEx;
 
-    @ManyToOne
-    private pacient id_pacient; //ссылка на пациента
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vaccination_id", referencedColumnName = "id")
+    private vaccinations vaccinationEntity;
 
-    @ManyToOne
-    private vaccinations id_vaccination; //ссылка на вакцину
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pacient_id", referencedColumnName = "id")
+    private pacient pacientEntity;
 
 }

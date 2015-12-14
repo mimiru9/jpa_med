@@ -10,13 +10,14 @@ import javax.persistence.*;
 public class diseases {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "nosology")
+    @Column(name = "nosology", nullable = false)
     private  String nosology;
 
 }
